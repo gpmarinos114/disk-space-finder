@@ -5,8 +5,11 @@ struct OldFilesView: View {
     let onNodeSelected: (FileNode) -> Void
     let onDelete: (FileNode) -> Void
 
-    @State private var selectedFilter: AgeFilter = .lastYear
+    @State private var selectedFilter: AgeFilter = .olderThan(value: 1, unit: .year)
+    @State private var customValue: Int = 1
+    @State private var customUnit: Calendar.Component = .year
     @State private var fileToDelete: FileNode?
+    @State private var showCustomPicker = false
 
     private var filteredFiles: [FileNode] {
         let allFiles = node.allFiles()
@@ -21,18 +24,16 @@ struct OldFilesView: View {
             switch selectedFilter {
             case .all:
                 return true
-            case .lastWeek:
-                return calendar.dateComponents([.day], from: date, to: now).day ?? 0 <= 7
-            case .lastMonth:
-                return calendar.dateComponents([.month], from: date, to: now).month ?? 0 <= 1
-            case .last3Months:
-                return calendar.dateComponents([.month], from: date, to: now).month ?? 0 <= 3
-            case .last6Months:
-                return calendar.dateComponents([.month], from: date, to: now).month ?? 0 <= 6
-            case .lastYear:
-                return calendar.dateComponents([.year], from: date, to: now).year ?? 0 <= 1
-            case .olderThan1Year:
-                return calendar.dateComponents([.year], from: date, to: now).year ?? 0 > 1
+            case .olderThan(let value, let unit):
+                let components = calendar.dateComponents([unit], from: date, to: now)
+                let diff: Int
+                switch unit {
+                case .day: diff = components.day ?? 0
+                case .month: diff = components.month ?? 0
+                case .year: diff = components.year ?? 0
+                default: diff = components.day ?? 0
+                }
+                return diff >= value
             case .unknown:
                 return file.modificationDate == nil
             }
@@ -104,14 +105,64 @@ struct OldFilesView: View {
     }
 
     private var headerBar: some View {
-        HStack {
-            Picker("Filter", selection: $selectedFilter) {
-                ForEach(AgeFilter.allCases) { filter in
-                    Text(filter.rawValue).tag(filter)
+        HStack(spacing: 12) {
+            Menu {
+                Button("All Files") { selectedFilter = .all }
+                Button("Older Than 7 Days") { selectedFilter = .olderThan(value: 7, unit: .day) }
+                Button("Older Than 30 Days") { selectedFilter = .olderThan(value: 30, unit: .day) }
+                Button("Older Than 90 Days") { selectedFilter = .olderThan(value: 90, unit: .day) }
+                Button("Older Than 6 Months") { selectedFilter = .olderThan(value: 6, unit: .month) }
+                Button("Older Than 1 Year") { selectedFilter = .olderThan(value: 1, unit: .year) }
+                Button("Older Than 2 Years") { selectedFilter = .olderThan(value: 2, unit: .year) }
+
+                Divider()
+
+                Button("Custom...") { showCustomPicker = true }
+
+                Divider()
+
+                Button("Unknown Date") { selectedFilter = .unknown }
+            } label: {
+                HStack {
+                    Text(selectedFilter.displayName)
+                        .lineLimit(1)
+                    Image(systemName: "chevron.down")
+                        .font(.caption2)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(.quaternary)
+                .cornerRadius(4)
+            }
+            .frame(width: 200)
+
+            if showCustomPicker {
+                HStack(spacing: 4) {
+                    Text("Older than")
+                        .font(.caption)
+
+                    TextField("", value: $customValue, format: .number)
+                        .frame(width: 40)
+                        .textFieldStyle(.roundedBorder)
+                        .onChange(of: customValue) { _, newValue in
+                            selectedFilter = .olderThan(value: max(1, newValue), unit: customUnit)
+                        }
+
+                    Picker("", selection: $customUnit) {
+                        Text("Days").tag(Calendar.Component.day)
+                        Text("Months").tag(Calendar.Component.month)
+                        Text("Years").tag(Calendar.Component.year)
+                    }
+                    .pickerStyle(.menu)
+                    .frame(width: 80)
+                    .onChange(of: customUnit) { _, newValue in
+                        selectedFilter = .olderThan(value: max(1, customValue), unit: newValue)
+                    }
+
+                    Button("Done") { showCustomPicker = false }
+                        .font(.caption)
                 }
             }
-            .pickerStyle(.menu)
-            .frame(width: 180)
 
             Spacer()
 

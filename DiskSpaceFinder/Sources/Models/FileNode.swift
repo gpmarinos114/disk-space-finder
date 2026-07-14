@@ -64,36 +64,6 @@ extension FileNode {
         }
     }
 
-    func filteredChildren(by filter: AgeFilter) -> [FileNode] {
-        guard filter != .all else { return children }
-
-        let calendar = Calendar.current
-        let now = Date()
-
-        return children.filter { node in
-            guard let date = node.modificationDate else { return filter == .unknown }
-
-            switch filter {
-            case .all:
-                return true
-            case .lastWeek:
-                return calendar.dateComponents([.day], from: date, to: now).day ?? 0 <= 7
-            case .lastMonth:
-                return calendar.dateComponents([.month], from: date, to: now).month ?? 0 <= 1
-            case .last3Months:
-                return calendar.dateComponents([.month], from: date, to: now).month ?? 0 <= 3
-            case .last6Months:
-                return calendar.dateComponents([.month], from: date, to: now).month ?? 0 <= 6
-            case .lastYear:
-                return calendar.dateComponents([.year], from: date, to: now).year ?? 0 <= 1
-            case .olderThan1Year:
-                return calendar.dateComponents([.year], from: date, to: now).year ?? 0 > 1
-            case .unknown:
-                return node.modificationDate == nil
-            }
-        }
-    }
-
     func allFiles() -> [FileNode] {
         var files: [FileNode] = []
         collectFiles(into: &files)
@@ -116,19 +86,6 @@ enum SortOption: String, CaseIterable, Identifiable {
     case nameAscending = "Name (A-Z)"
     case nameDescending = "Name (Z-A)"
     case dateModified = "Date Modified"
-
-    var id: String { rawValue }
-}
-
-enum AgeFilter: String, CaseIterable, Identifiable {
-    case all = "All Files"
-    case lastWeek = "Last Week"
-    case lastMonth = "Last Month"
-    case last3Months = "Last 3 Months"
-    case last6Months = "Last 6 Months"
-    case lastYear = "Last Year"
-    case olderThan1Year = "Older Than 1 Year"
-    case unknown = "Unknown Date"
 
     var id: String { rawValue }
 }
