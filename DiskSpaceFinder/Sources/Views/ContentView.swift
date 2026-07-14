@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var selectedVisualization: VisualizationType = .treemap
     @State private var scanPath: String = ""
     @State private var showScanComplete = false
+    @State private var showExportSheet = false
 
     enum VisualizationType: String, CaseIterable {
         case treemap = "Treemap"
@@ -14,6 +15,7 @@ struct ContentView: View {
         case tree = "Tree"
         case charts = "Charts"
         case duplicates = "Duplicates"
+        case oldFiles = "Old Files"
     }
 
     var body: some View {
@@ -36,6 +38,15 @@ struct ContentView: View {
                         Label("Cancel", systemImage: "xmark.circle.fill")
                     }
                     .keyboardShortcut(".", modifiers: .command)
+                }
+            }
+
+            ToolbarItem(placement: .automatic) {
+                if scanManager.rootNode != nil {
+                    Button(action: { exportCSV() }) {
+                        Label("Export", systemImage: "square.and.arrow.up")
+                    }
+                    .keyboardShortcut("e", modifiers: .command)
                 }
             }
 
@@ -115,6 +126,20 @@ struct ContentView: View {
 
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
             center.add(request)
+        }
+    }
+
+    private func exportCSV() {
+        guard let node = scanManager.rootNode else { return }
+
+        let csv = CSVExporter.exportFlatCSV(node: node)
+        let filename = "DiskSpaceFinder_\(node.name)_\(Date().formatted(date: .abbreviated, time: .omitted)).csv"
+
+        do {
+            let fileURL = try CSVExporter.saveCSV(content: csv, filename: filename)
+            NSWorkspace.shared.open(fileURL)
+        } catch {
+            // Handle error
         }
     }
 
@@ -305,6 +330,17 @@ struct ContentView: View {
                             )
                         case .duplicates:
                             DuplicateFilesView(node: selected)
+                        case .oldFiles:
+                            OldFilesView(
+                                node: selected,
+                                onNodeSelected: { node in
+                                    if !node.childrenLoaded {
+                                        Task { await scanManager.loadChildren(for: node) }
+                                    }
+                                    scanManager.navigateTo(node)
+                                },
+                                onDelete: { _ = scanManager.deleteFile($0) }
+                            )
                         }
                     }
                 }

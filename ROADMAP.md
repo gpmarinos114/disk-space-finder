@@ -73,8 +73,8 @@
 
 ### 3.3 Large/Old File Finder
 - [x] Sort by size, find space hogs
-- [ ] Filter by age (last accessed/modified)
-- [ ] "Last opened" analysis for unused files
+- [x] Filter by age (last accessed/modified)
+- [x] "Last opened" analysis for unused files
 
 ### 3.4 Quick Actions
 - [x] Reveal in Finder
@@ -126,7 +126,7 @@
 - [ ] Spotlight integration (metadata import)
 - [ ] Menu bar widget for quick disk usage
 - [x] Keyboard shortcuts throughout
-- [ ] Export reports (CSV, PDF)
+- [x] Export reports (CSV)
 
 ---
 

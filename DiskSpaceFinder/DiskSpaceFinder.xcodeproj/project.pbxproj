@@ -17,10 +17,12 @@
 		6A6CD1B6FA4AD326C2DE06BF /* FileNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517371AD2F66FE7E3F7CF7EC /* FileNodeTests.swift */; };
 		70DE5E490D776B98257758AF /* ScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BAC93069B1E68B608C44D9 /* ScanManager.swift */; };
 		8AF3BAC966FEB3FEFE13FCB1 /* FileCategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D3D4530684EF2EA0B78E29 /* FileCategoryTests.swift */; };
+		A242321145175BDA2F882D04 /* CSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280C5C6FD6659995FF40465 /* CSVExporter.swift */; };
 		A46F12B342F30F287861C765 /* FileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0DB304862A215AA81C8CE /* FileNode.swift */; };
 		ADC87F0D73B73A7F30496852 /* DiskOverviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90957F95FD6490FA700361D /* DiskOverviewService.swift */; };
 		BBB5DF17A71438A42912FA86 /* FileTreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9539114B40313B86AF37E /* FileTreeView.swift */; };
 		BE20910F562A5315C04419DE /* DuplicateDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067594ECAEEF7D197F7A6938 /* DuplicateDetector.swift */; };
+		CAD1FF06693A10867433F727 /* OldFilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4529EAE367B242C35E190000 /* OldFilesView.swift */; };
 		D147CB2A2001855C164D2A97 /* DiskSpaceFinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB0E6E3F6687CDFD509CB98 /* DiskSpaceFinderApp.swift */; };
 		DB0B5D618D1E7A2208301054 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9EA84EC4E6B33295FBA89 /* ContentView.swift */; };
 		DD3C690A43EF2D4FC75C7585 /* FileCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9597E8401F4ADA14AE13C46 /* FileCategory.swift */; };
@@ -46,10 +48,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0280C5C6FD6659995FF40465 /* CSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExporter.swift; sourceTree = "<group>"; };
 		067594ECAEEF7D197F7A6938 /* DuplicateDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateDetector.swift; sourceTree = "<group>"; };
 		07BAC8DBC8F7D2B77A5F9385 /* TreemapLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreemapLayoutTests.swift; sourceTree = "<group>"; };
 		19C9539114B40313B86AF37E /* FileTreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTreeView.swift; sourceTree = "<group>"; };
 		35D9EA84EC4E6B33295FBA89 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4529EAE367B242C35E190000 /* OldFilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldFilesView.swift; sourceTree = "<group>"; };
 		489A4CAA1CE82D99C4263192 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
 		4E97D43D6FF7BDBDC0C931BF /* TreemapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreemapLayout.swift; sourceTree = "<group>"; };
 		517371AD2F66FE7E3F7CF7EC /* FileNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNodeTests.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 		872FACA52FF5CD0826653A92 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				0280C5C6FD6659995FF40465 /* CSVExporter.swift */,
 				4E97D43D6FF7BDBDC0C931BF /* TreemapLayout.swift */,
 			);
 			path = Utils;
@@ -179,6 +184,7 @@
 				ED7721CD1C3AEB999C1AB93C /* DiskOverviewView.swift */,
 				B6B8018ACEEF15525F15BB48 /* DuplicateFilesView.swift */,
 				19C9539114B40313B86AF37E /* FileTreeView.swift */,
+				4529EAE367B242C35E190000 /* OldFilesView.swift */,
 				B2AE31B69B264EA42C63D2A7 /* SunburstView.swift */,
 				E3DFB87E25648881EF67D64F /* TreeDetailView.swift */,
 				81F4F6F8A2E165E2772C0F6F /* TreemapView.swift */,
@@ -289,6 +295,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A242321145175BDA2F882D04 /* CSVExporter.swift in Sources */,
 				57A70AA3E5F578684379FC84 /* ChartsView.swift in Sources */,
 				DB0B5D618D1E7A2208301054 /* ContentView.swift in Sources */,
 				ADC87F0D73B73A7F30496852 /* DiskOverviewService.swift in Sources */,
@@ -300,6 +307,7 @@
 				A46F12B342F30F287861C765 /* FileNode.swift in Sources */,
 				64E87AE92860B68DE2DE7ACD /* FileScanner.swift in Sources */,
 				BBB5DF17A71438A42912FA86 /* FileTreeView.swift in Sources */,
+				CAD1FF06693A10867433F727 /* OldFilesView.swift in Sources */,
 				70DE5E490D776B98257758AF /* ScanManager.swift in Sources */,
 				375A45A2AD4B9D58513047A8 /* SunburstView.swift in Sources */,
 				3624007B2C66E223130957F1 /* TreeDetailView.swift in Sources */,
