@@ -16,7 +16,7 @@ struct FilePreviewView: View {
                     .buttonStyle(.bordered)
             }
             .padding(.horizontal, 16)
-            .padding(.top, 20)
+            .padding(.top, 28)
             .padding(.bottom, 12)
             .background(.bar)
 
