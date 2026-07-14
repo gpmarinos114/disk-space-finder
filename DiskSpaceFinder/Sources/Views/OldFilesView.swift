@@ -10,49 +10,33 @@ struct OldFilesView: View {
     @State private var customUnit: Calendar.Component = .year
     @State private var fileToDelete: FileNode?
     @State private var showCustomPicker = false
-
-    private var filteredFiles: [FileNode] {
-        let allFiles = node.allFiles()
-        let calendar = Calendar.current
-        let now = Date()
-
-        return allFiles.filter { file in
-            guard let date = file.modificationDate else {
-                return selectedFilter == .unknown
-            }
-
-            switch selectedFilter {
-            case .all:
-                return true
-            case .olderThan(let value, let unit):
-                let components = calendar.dateComponents([unit], from: date, to: now)
-                let diff: Int
-                switch unit {
-                case .day: diff = components.day ?? 0
-                case .month: diff = components.month ?? 0
-                case .year: diff = components.year ?? 0
-                default: diff = components.day ?? 0
-                }
-                return diff >= value
-            case .unknown:
-                return file.modificationDate == nil
-            }
-        }.sorted { $0.size > $1.size }
-    }
+    @State private var filteredFiles: [FileNode] = []
+    @State private var isFiltering = true
 
     var body: some View {
         VStack(spacing: 0) {
             headerBar
             Divider()
 
-            if filteredFiles.isEmpty {
+            if isFiltering {
+                VStack(spacing: 16) {
+                    Spacer()
+                    ProgressView()
+                        .frame(width: 20, height: 20)
+                    Text("Filtering files...")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+            } else if filteredFiles.isEmpty {
                 ContentUnavailableView(
                     "No Files Found",
                     systemImage: "clock",
                     description: Text("No files match the selected age filter")
                 )
             } else {
-                List(filteredFiles) { file in
+                List(filteredFiles.prefix(1000)) { file in
                     row(for: file)
                         .contextMenu {
                             Button {
@@ -86,6 +70,9 @@ struct OldFilesView: View {
                 .listStyle(.inset)
             }
         }
+        .task(id: selectedFilter) {
+            await applyFilter()
+        }
         .alert("Delete File", isPresented: Binding(
             get: { fileToDelete != nil },
             set: { if !$0 { fileToDelete = nil } }
@@ -102,6 +89,43 @@ struct OldFilesView: View {
                 Text("Are you sure you want to move \"\(file.name)\" to the Trash?")
             }
         }
+    }
+
+    private func applyFilter() async {
+        isFiltering = true
+
+        let allFiles = node.allFiles()
+        let filter = selectedFilter
+        let calendar = Calendar.current
+        let now = Date()
+
+        let filtered = await Task.detached(priority: .userInitiated) {
+            allFiles.filter { file in
+                guard let date = file.modificationDate else {
+                    return filter == .unknown
+                }
+
+                switch filter {
+                case .all:
+                    return true
+                case .olderThan(let value, let unit):
+                    let components = calendar.dateComponents([unit], from: date, to: now)
+                    let diff: Int
+                    switch unit {
+                    case .day: diff = components.day ?? 0
+                    case .month: diff = components.month ?? 0
+                    case .year: diff = components.year ?? 0
+                    default: diff = components.day ?? 0
+                    }
+                    return diff >= value
+                case .unknown:
+                    return file.modificationDate == nil
+                }
+            }.sorted { $0.size > $1.size }
+        }.value
+
+        filteredFiles = filtered
+        isFiltering = false
     }
 
     private var headerBar: some View {
