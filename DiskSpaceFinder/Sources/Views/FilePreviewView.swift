@@ -13,8 +13,10 @@ struct FilePreviewView: View {
                     .truncationMode(.middle)
                 Spacer()
                 Button("Done") { dismiss() }
+                    .buttonStyle(.bordered)
             }
-            .padding()
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
             .background(.bar)
 
             Divider()
