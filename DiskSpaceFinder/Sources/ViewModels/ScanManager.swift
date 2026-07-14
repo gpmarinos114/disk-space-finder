@@ -30,6 +30,7 @@ class ScanManager: ObservableObject {
 
     private let scanner = FileScanner()
     private var scanTask: Task<Void, Never>?
+    private var isDone = false
 
     var isScanning: Bool {
         if case .scanning = scanState { return true }
@@ -51,6 +52,7 @@ class ScanManager: ObservableObject {
         selectedNode = nil
         navigationPath = []
         filesScanned = 0
+        isDone = false
 
         let scannerRef = self.scanner
 
@@ -61,11 +63,11 @@ class ScanManager: ObservableObject {
                 let scanner = scannerRef
                 while !Task.isCancelled {
                     try? await Task.sleep(nanoseconds: 1_000_000_000)
-                    if Task.isCancelled { break }
+                    if Task.isCancelled || self?.isDone == true { break }
                     let count = await scanner.totalScanned
                     let currentPath = await scanner.getCurrentPath()
                     Task { @MainActor [weak self] in
-                        guard let self else { return }
+                        guard let self, !self.isDone else { return }
                         self.filesScanned = count
                         self.scanState = .scanning(path: currentPath, filesScanned: count)
                     }
@@ -77,6 +79,7 @@ class ScanManager: ObservableObject {
                 counterTask.cancel()
 
                 if !Task.isCancelled {
+                    self.isDone = true
                     self.rootNode = node
                     self.selectedNode = node
                     self.filesScanned = await scannerRef.totalScanned
@@ -85,9 +88,11 @@ class ScanManager: ObservableObject {
                 }
             } catch is CancellationError {
                 counterTask.cancel()
+                self.isDone = true
                 self.scanState = .idle
             } catch {
                 counterTask.cancel()
+                self.isDone = true
                 self.scanState = .error(error.localizedDescription)
             }
         }
@@ -150,6 +155,7 @@ class ScanManager: ObservableObject {
     }
 
     func cancelScan() {
+        isDone = true
         scanTask?.cancel()
         Task { await scanner.cancel() }
         scanState = .idle
