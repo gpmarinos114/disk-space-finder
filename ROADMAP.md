@@ -3,152 +3,143 @@
 ## Phase 1: Core Foundation (Week 1-2)
 
 ### 1.1 Project Setup
-- Create Xcode project with SwiftUI + AppKit
-- Set minimum deployment target (macOS 13+ recommended)
-- Configure sandbox entitlements for file system access
-- Add usage descriptions in Info.plist for folder access
+- [x] Create Xcode project with SwiftUI + AppKit
+- [x] Set minimum deployment target (macOS 14+)
+- [x] Configure sandbox entitlements for file system access
+- [x] Add usage descriptions in Info.plist for folder access
 
 ### 1.2 File System Scanner
-- Build recursive directory walker using `FileManager`
-- Collect file metadata: size, name, path, type, creation/modification date
-- Use `stat()` or `getResourceValues()` for efficient size collection
-- Handle symlinks, aliases, and permission-denied directories
-- Support scanning specific volumes (`/`, `/Volumes/*`)
+- [x] Build recursive directory walker using `FileManager`
+- [x] Collect file metadata: size, name, path, type, creation/modification date
+- [x] Use `getResourceValues()` for efficient size collection
+- [x] Handle permission-denied directories gracefully
+- [x] Support scanning specific volumes (`/`, `/Volumes/*`)
 
 ### 1.3 Data Model
-
-```swift
-FileNode {
-    name: String
-    path: URL
-    size: Int64
-    children: [FileNode]
-    isDirectory: Bool
-    fileExtension: String?
-    modificationDate: Date?
-}
-```
+- [x] FileNode struct with all properties (name, path, size, children, isDirectory, fileExtension, dates)
+- [x] FileCategory enum for file type classification
+- [x] SortOption enum for sorting children
 
 ### 1.4 Background Processing
-- Run scans on background thread (`DispatchQueue` or Swift concurrency)
-- Report progress via `AsyncStream` or `@Published` properties
-- Allow cancel/pause of in-progress scans
+- [x] Run scans on background thread (Swift async/await)
+- [x] Report progress via `@Published` properties
+- [x] Allow cancel of in-progress scans
+- [x] Live file counter during scan
 
 ---
 
 ## Phase 2: Visualizations (Week 3-4)
 
 ### 2.1 Treemap View (Primary)
-- Implement squarified treemap algorithm for optimal rectangle ratios
-- Render with SwiftUI `Canvas` or custom `NSView`
-- Color by file type (documents, media, code, etc.)
-- Size labels on blocks, percentage labels
-- Click to zoom into subdirectory
-- Breadcrumb navigation for current depth
+- [x] Implement squarified treemap algorithm for optimal rectangle ratios
+- [x] Render with SwiftUI `Canvas`
+- [x] Color by file type (documents, media, code, etc.)
+- [x] Size labels on blocks
+- [x] Click to zoom into subdirectory
+- [x] Breadcrumb navigation for current depth
 
 ### 2.2 Sunburst Chart
-- Concentric rings representing directory depth
-- Arc width proportional to file size
-- Interactive: hover for details, click to drill down
-- Implement using SwiftUI `Canvas` with arc paths
+- [x] Concentric rings representing directory depth
+- [x] Arc width proportional to file size
+- [x] Click to drill down
+- [x] Implement using SwiftUI `Canvas` with arc paths
 
 ### 2.3 Tree View (Sidebar)
-- Hierarchical `OutlineGroup` or custom disclosure view
-- Columns: Name, Size, File Count, % of Parent
-- Sort by any column
-- Expand/collapse directories
-- Search/filter by name or extension
+- [x] Hierarchical list view
+- [x] Columns: Name, Size, File Count, % of Parent
+- [x] Sort by any column
+- [x] Search/filter by name or extension
 
 ### 2.4 Bar/Pie Charts
-- Top 10 largest files/directories bar chart
-- File type distribution pie chart
-- Use Swift Charts framework (macOS 13+)
+- [x] Top 10 largest files/directories bar chart
+- [x] File type distribution pie chart
+- [x] Size distribution histogram
+- [x] Use Swift Charts framework
 
 ---
 
 ## Phase 3: User Features (Week 5-6)
 
 ### 3.1 File Type Analysis
-- Categorize by extension (Media, Documents, Code, Archives, etc.)
-- Custom category definitions
-- Show breakdown per category with totals
+- [x] Categorize by extension (Media, Documents, Code, Archives, etc.)
+- [x] Custom category definitions
+- [x] Show breakdown per category with totals
 
 ### 3.2 Duplicate File Detection
-- Hash files (MD5/SHA256) for exact matches
-- Group duplicates with combined wasted space
-- Quick scan mode: match by size + name first
+- [x] Hash files (SHA256) for exact matches
+- [x] Group duplicates with combined wasted space
+- [x] Quick scan mode: match by size + name first
+- [ ] Wire up to main UI
 
 ### 3.3 Large/Old File Finder
-- Sort by size, find space hogs
-- Filter by age (last accessed/modified)
-- "Last opened" analysis for unused files
+- [x] Sort by size, find space hogs
+- [ ] Filter by age (last accessed/modified)
+- [ ] "Last opened" analysis for unused files
 
 ### 3.4 Quick Actions
-- Reveal in Finder
-- Move to Trash (with confirmation)
-- Open file
-- Copy path
-- Compress folder
+- [x] Reveal in Finder
+- [x] Move to Trash (with confirmation)
+- [x] Delete from any view (treemap, tree, charts)
+- [ ] Open file
+- [ ] Copy path
+- [ ] Compress folder
 
 ### 3.5 Scan History
-- Save scan snapshots to disk (JSON/SQLite)
-- Compare scans over time
-- Show growth trends
+- [ ] Save scan snapshots to disk (JSON/SQLite)
+- [ ] Compare scans over time
+- [ ] Show growth trends
 
 ---
 
 ## Phase 4: Polish & UX (Week 7-8)
 
 ### 4.1 UI/UX
-- Native macOS look with sidebar + detail split view
-- Dark/light mode support
-- Drag-and-drop folders onto app to scan
-- Progress indicator during scan with ETA
-- Notification when scan completes
+- [x] Native macOS look with sidebar + detail split view
+- [x] Dark/light mode support (automatic)
+- [ ] Drag-and-drop folders onto app to scan
+- [x] Progress indicator during scan
+- [ ] Notification when scan completes
 
 ### 4.2 Performance
-- Incremental scanning (only re-scan changed directories)
-- Memory-efficient streaming for large trees
-- Cache scan results to `~/Library/Caches`
-- Use `DispatchSource` for file system monitoring
+- [ ] Incremental scanning (only re-scan changed directories)
+- [x] Lazy child loading (load on demand when drilling down)
+- [ ] Cache scan results to `~/Library/Caches`
+- [ ] Use `DispatchSource` for file system monitoring
 
 ### 4.3 Disk Overview
-- Show all mounted volumes with usage bars
-- APFS container visualization
-- Available vs used vs purgeable space
+- [x] Show all mounted volumes with usage bars
+- [ ] APFS container visualization
+- [x] Available vs used space
 
 ---
 
 ## Phase 5: Distribution (Week 9+)
 
 ### 5.1 Packaging
-- Code signing with Apple Developer ID
-- Notarization for Gatekeeper
-- DMG or .app distribution
-- Optional: Mac App Store submission
+- [ ] Code signing with Apple Developer ID
+- [ ] Notarization for Gatekeeper
+- [ ] DMG or .app distribution
+- [ ] Optional: Mac App Store submission
 
 ### 5.2 Extras
-- Spotlight integration (metadata import)
-- Menu bar widget for quick disk usage
-- Keyboard shortcuts throughout
-- Export reports (CSV, PDF)
+- [ ] Spotlight integration (metadata import)
+- [ ] Menu bar widget for quick disk usage
+- [ ] Keyboard shortcuts throughout
+- [ ] Export reports (CSV, PDF)
 
 ---
 
 ## Key Technical Decisions
 
-| Decision | Recommendation |
-|----------|----------------|
-| UI Framework | SwiftUI + AppKit interop (Canvas for custom drawing) |
-| Concurrency | Swift async/await + `AsyncStream` |
-| Storage | SQLite via GRDB or SwiftData |
-| Min macOS | 13 Ventura (for Swift Charts, newer SwiftUI) |
-| Charts | Swift Charts framework |
-| File hashing | `CryptoKit` for SHA256 |
+| Decision | Status |
+|----------|--------|
+| UI Framework | SwiftUI + Canvas ✅ |
+| Concurrency | Swift async/await ✅ |
+| Min macOS | 14 Sonoma ✅ |
+| Charts | Swift Charts framework ✅ |
+| File hashing | CryptoKit for SHA256 ✅ |
+| Storage | SQLite (not yet implemented) |
 
-## Open Source References
+## GitHub Repository
 
-- **GrandPerspective** — treemap scanning logic (Objective-C)
-- **OmniDiskSweepy** — UI patterns for disk cleanup
-- **ncdu** — efficient directory traversal
-- **squarify** — treemap layout algorithm
+https://github.com/gpmarinos114/disk-space-finder
