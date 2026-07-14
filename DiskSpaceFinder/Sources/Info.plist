@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>DiskSpaceFinder</string>
+    <key>CFBundleDisplayName</key>
+    <string>Disk Space Finder</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.diskspacefinder.app</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>CFBundleExecutable</key>
+    <string>DiskSpaceFinder</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    <key>NSPrincipalClass</key>
+    <string>NSApplication</string>
+    <key>NSDesktopFolderUsageDescription</key>
+    <string>Disk Space Finder needs access to scan your Desktop folder for disk usage analysis.</string>
+    <key>NSDocumentsFolderUsageDescription</key>
+    <string>Disk Space Finder needs access to scan your Documents folder for disk usage analysis.</string>
+    <key>NSDownloadsFolderUsageDescription</key>
+    <string>Disk Space Finder needs access to scan your Downloads folder for disk usage analysis.</string>
+    <key>NSRemovableVolumesUsageDescription</key>
+    <string>Disk Space Finder needs access to scan removable volumes for disk usage analysis.</string>
+    <key>NSNetworkVolumesUsageDescription</key>
+    <string>Disk Space Finder needs access to scan network volumes for disk usage analysis.</string>
+</dict>
+</plist>

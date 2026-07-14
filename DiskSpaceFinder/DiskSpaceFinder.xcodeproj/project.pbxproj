@@ -1,0 +1,612 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07E5CAE13EB3433965683F9E /* DiskOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7721CD1C3AEB999C1AB93C /* DiskOverviewView.swift */; };
+		289E36EA881259F1FC96D16B /* TreemapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F4F6F8A2E165E2772C0F6F /* TreemapView.swift */; };
+		3624007B2C66E223130957F1 /* TreeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3DFB87E25648881EF67D64F /* TreeDetailView.swift */; };
+		375A45A2AD4B9D58513047A8 /* SunburstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2AE31B69B264EA42C63D2A7 /* SunburstView.swift */; };
+		42AA3529FB2E558179243E24 /* TreemapLayoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BAC8DBC8F7D2B77A5F9385 /* TreemapLayoutTests.swift */; };
+		57A70AA3E5F578684379FC84 /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489A4CAA1CE82D99C4263192 /* ChartsView.swift */; };
+		64E87AE92860B68DE2DE7ACD /* FileScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF7B88CBFA95AF6AED171C1 /* FileScanner.swift */; };
+		6A6CD1B6FA4AD326C2DE06BF /* FileNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517371AD2F66FE7E3F7CF7EC /* FileNodeTests.swift */; };
+		70DE5E490D776B98257758AF /* ScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5BAC93069B1E68B608C44D9 /* ScanManager.swift */; };
+		8AF3BAC966FEB3FEFE13FCB1 /* FileCategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D3D4530684EF2EA0B78E29 /* FileCategoryTests.swift */; };
+		A46F12B342F30F287861C765 /* FileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0DB304862A215AA81C8CE /* FileNode.swift */; };
+		ADC87F0D73B73A7F30496852 /* DiskOverviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90957F95FD6490FA700361D /* DiskOverviewService.swift */; };
+		BBB5DF17A71438A42912FA86 /* FileTreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C9539114B40313B86AF37E /* FileTreeView.swift */; };
+		BE20910F562A5315C04419DE /* DuplicateDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067594ECAEEF7D197F7A6938 /* DuplicateDetector.swift */; };
+		D147CB2A2001855C164D2A97 /* DiskSpaceFinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFB0E6E3F6687CDFD509CB98 /* DiskSpaceFinderApp.swift */; };
+		DB0B5D618D1E7A2208301054 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D9EA84EC4E6B33295FBA89 /* ContentView.swift */; };
+		DD3C690A43EF2D4FC75C7585 /* FileCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9597E8401F4ADA14AE13C46 /* FileCategory.swift */; };
+		E2A10D2B5E722A44E8BCA3A6 /* DuplicateFilesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B8018ACEEF15525F15BB48 /* DuplicateFilesView.swift */; };
+		EF84E5C42E9C9B1396A5E051 /* TreemapLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E97D43D6FF7BDBDC0C931BF /* TreemapLayout.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		23CD8D5689D67C54A4875281 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 901C4360D9D904905CBF937A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D934E319237697D03904C31B;
+			remoteInfo = DiskSpaceFinder;
+		};
+		9B047056E3490CE72DAADCE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 901C4360D9D904905CBF937A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D934E319237697D03904C31B;
+			remoteInfo = DiskSpaceFinder;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		067594ECAEEF7D197F7A6938 /* DuplicateDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateDetector.swift; sourceTree = "<group>"; };
+		07BAC8DBC8F7D2B77A5F9385 /* TreemapLayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreemapLayoutTests.swift; sourceTree = "<group>"; };
+		19C9539114B40313B86AF37E /* FileTreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTreeView.swift; sourceTree = "<group>"; };
+		35D9EA84EC4E6B33295FBA89 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		489A4CAA1CE82D99C4263192 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
+		4E97D43D6FF7BDBDC0C931BF /* TreemapLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreemapLayout.swift; sourceTree = "<group>"; };
+		517371AD2F66FE7E3F7CF7EC /* FileNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNodeTests.swift; sourceTree = "<group>"; };
+		7BF7B88CBFA95AF6AED171C1 /* FileScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileScanner.swift; sourceTree = "<group>"; };
+		7E036EAB278F3CDFD4D3271D /* DiskSpaceFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiskSpaceFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		81F4F6F8A2E165E2772C0F6F /* TreemapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreemapView.swift; sourceTree = "<group>"; };
+		866BBC17330EE35A2E2E6BB3 /* DiskSpaceFinderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiskSpaceFinderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5D3D4530684EF2EA0B78E29 /* FileCategoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCategoryTests.swift; sourceTree = "<group>"; };
+		A90957F95FD6490FA700361D /* DiskOverviewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskOverviewService.swift; sourceTree = "<group>"; };
+		B2AE31B69B264EA42C63D2A7 /* SunburstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunburstView.swift; sourceTree = "<group>"; };
+		B6B8018ACEEF15525F15BB48 /* DuplicateFilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateFilesView.swift; sourceTree = "<group>"; };
+		B9597E8401F4ADA14AE13C46 /* FileCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCategory.swift; sourceTree = "<group>"; };
+		CCA0DB304862A215AA81C8CE /* FileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNode.swift; sourceTree = "<group>"; };
+		CFB0E6E3F6687CDFD509CB98 /* DiskSpaceFinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSpaceFinderApp.swift; sourceTree = "<group>"; };
+		E38CF97BC60B2A2B3832863A /* DiskSpaceFinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiskSpaceFinderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3DFB87E25648881EF67D64F /* TreeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeDetailView.swift; sourceTree = "<group>"; };
+		E5BAC93069B1E68B608C44D9 /* ScanManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanManager.swift; sourceTree = "<group>"; };
+		ED7721CD1C3AEB999C1AB93C /* DiskOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskOverviewView.swift; sourceTree = "<group>"; };
+		F1E7652E8CF5310D4892F342 /* DiskSpaceFinder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiskSpaceFinder.entitlements; sourceTree = "<group>"; };
+		F6DED731E4E29FBE09F1E448 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		03B04A015EE2E8043102C81C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E5BAC93069B1E68B608C44D9 /* ScanManager.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		1462DF7C594A6921FACA5019 = {
+			isa = PBXGroup;
+			children = (
+				BE667DB3DF84A530E9546A46 /* IntegrationTests */,
+				347D7D1D3936A58B2AEB5AF0 /* Sources */,
+				D507A92B6C5E67877D64AA73 /* UITests */,
+				D4F18EC6C45262389A0FE79B /* UnitTests */,
+				B1805F77F6503426DE663CFE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		17367A7DDA36A4916AEC8ECE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				A90957F95FD6490FA700361D /* DiskOverviewService.swift */,
+				067594ECAEEF7D197F7A6938 /* DuplicateDetector.swift */,
+				7BF7B88CBFA95AF6AED171C1 /* FileScanner.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		347D7D1D3936A58B2AEB5AF0 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				F1E7652E8CF5310D4892F342 /* DiskSpaceFinder.entitlements */,
+				CFB0E6E3F6687CDFD509CB98 /* DiskSpaceFinderApp.swift */,
+				F6DED731E4E29FBE09F1E448 /* Info.plist */,
+				839458D3E5DA002B4A282E22 /* Models */,
+				17367A7DDA36A4916AEC8ECE /* Services */,
+				872FACA52FF5CD0826653A92 /* Utils */,
+				03B04A015EE2E8043102C81C /* ViewModels */,
+				F0EDDE55EF07D9620BA6D484 /* Views */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		839458D3E5DA002B4A282E22 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B9597E8401F4ADA14AE13C46 /* FileCategory.swift */,
+				CCA0DB304862A215AA81C8CE /* FileNode.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		872FACA52FF5CD0826653A92 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4E97D43D6FF7BDBDC0C931BF /* TreemapLayout.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		B1805F77F6503426DE663CFE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7E036EAB278F3CDFD4D3271D /* DiskSpaceFinder.app */,
+				866BBC17330EE35A2E2E6BB3 /* DiskSpaceFinderTests.xctest */,
+				E38CF97BC60B2A2B3832863A /* DiskSpaceFinderUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BE667DB3DF84A530E9546A46 /* IntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = IntegrationTests;
+			path = Tests/IntegrationTests;
+			sourceTree = "<group>";
+		};
+		D4F18EC6C45262389A0FE79B /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				A5D3D4530684EF2EA0B78E29 /* FileCategoryTests.swift */,
+				517371AD2F66FE7E3F7CF7EC /* FileNodeTests.swift */,
+				07BAC8DBC8F7D2B77A5F9385 /* TreemapLayoutTests.swift */,
+			);
+			name = UnitTests;
+			path = Tests/UnitTests;
+			sourceTree = "<group>";
+		};
+		D507A92B6C5E67877D64AA73 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UITests;
+			path = Tests/UITests;
+			sourceTree = "<group>";
+		};
+		F0EDDE55EF07D9620BA6D484 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				489A4CAA1CE82D99C4263192 /* ChartsView.swift */,
+				35D9EA84EC4E6B33295FBA89 /* ContentView.swift */,
+				ED7721CD1C3AEB999C1AB93C /* DiskOverviewView.swift */,
+				B6B8018ACEEF15525F15BB48 /* DuplicateFilesView.swift */,
+				19C9539114B40313B86AF37E /* FileTreeView.swift */,
+				B2AE31B69B264EA42C63D2A7 /* SunburstView.swift */,
+				E3DFB87E25648881EF67D64F /* TreeDetailView.swift */,
+				81F4F6F8A2E165E2772C0F6F /* TreemapView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4477E2F67FF5702F3125B7F4 /* DiskSpaceFinderUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0DB2A2C04C7235CB1F630BBF /* Build configuration list for PBXNativeTarget "DiskSpaceFinderUITests" */;
+			buildPhases = (
+				0E797603E3CC8F42320048EF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				38EF2415BEF3A7C5705BE005 /* PBXTargetDependency */,
+			);
+			name = DiskSpaceFinderUITests;
+			packageProductDependencies = (
+			);
+			productName = DiskSpaceFinderUITests;
+			productReference = E38CF97BC60B2A2B3832863A /* DiskSpaceFinderUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		BBF16E6FE4DF1020062AEA62 /* DiskSpaceFinderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA2F694758BA475519F19333 /* Build configuration list for PBXNativeTarget "DiskSpaceFinderTests" */;
+			buildPhases = (
+				616D8916EF4EA6B366D5F4A8 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				51A29F4363BF97A7C5B2D1EA /* PBXTargetDependency */,
+			);
+			name = DiskSpaceFinderTests;
+			packageProductDependencies = (
+			);
+			productName = DiskSpaceFinderTests;
+			productReference = 866BBC17330EE35A2E2E6BB3 /* DiskSpaceFinderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D934E319237697D03904C31B /* DiskSpaceFinder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4A8E51F07C99CAF29B081286 /* Build configuration list for PBXNativeTarget "DiskSpaceFinder" */;
+			buildPhases = (
+				513B1B6B96BBB9A577EDDCB7 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DiskSpaceFinder;
+			packageProductDependencies = (
+			);
+			productName = DiskSpaceFinder;
+			productReference = 7E036EAB278F3CDFD4D3271D /* DiskSpaceFinder.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		901C4360D9D904905CBF937A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					4477E2F67FF5702F3125B7F4 = {
+						TestTargetID = D934E319237697D03904C31B;
+					};
+				};
+			};
+			buildConfigurationList = 451B019B6CCF7AFAA9DA476A /* Build configuration list for PBXProject "DiskSpaceFinder" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 1462DF7C594A6921FACA5019;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = B1805F77F6503426DE663CFE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D934E319237697D03904C31B /* DiskSpaceFinder */,
+				BBF16E6FE4DF1020062AEA62 /* DiskSpaceFinderTests */,
+				4477E2F67FF5702F3125B7F4 /* DiskSpaceFinderUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0E797603E3CC8F42320048EF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		513B1B6B96BBB9A577EDDCB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57A70AA3E5F578684379FC84 /* ChartsView.swift in Sources */,
+				DB0B5D618D1E7A2208301054 /* ContentView.swift in Sources */,
+				ADC87F0D73B73A7F30496852 /* DiskOverviewService.swift in Sources */,
+				07E5CAE13EB3433965683F9E /* DiskOverviewView.swift in Sources */,
+				D147CB2A2001855C164D2A97 /* DiskSpaceFinderApp.swift in Sources */,
+				BE20910F562A5315C04419DE /* DuplicateDetector.swift in Sources */,
+				E2A10D2B5E722A44E8BCA3A6 /* DuplicateFilesView.swift in Sources */,
+				DD3C690A43EF2D4FC75C7585 /* FileCategory.swift in Sources */,
+				A46F12B342F30F287861C765 /* FileNode.swift in Sources */,
+				64E87AE92860B68DE2DE7ACD /* FileScanner.swift in Sources */,
+				BBB5DF17A71438A42912FA86 /* FileTreeView.swift in Sources */,
+				70DE5E490D776B98257758AF /* ScanManager.swift in Sources */,
+				375A45A2AD4B9D58513047A8 /* SunburstView.swift in Sources */,
+				3624007B2C66E223130957F1 /* TreeDetailView.swift in Sources */,
+				EF84E5C42E9C9B1396A5E051 /* TreemapLayout.swift in Sources */,
+				289E36EA881259F1FC96D16B /* TreemapView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		616D8916EF4EA6B366D5F4A8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AF3BAC966FEB3FEFE13FCB1 /* FileCategoryTests.swift in Sources */,
+				6A6CD1B6FA4AD326C2DE06BF /* FileNodeTests.swift in Sources */,
+				42AA3529FB2E558179243E24 /* TreemapLayoutTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		38EF2415BEF3A7C5705BE005 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D934E319237697D03904C31B /* DiskSpaceFinder */;
+			targetProxy = 23CD8D5689D67C54A4875281 /* PBXContainerItemProxy */;
+		};
+		51A29F4363BF97A7C5B2D1EA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D934E319237697D03904C31B /* DiskSpaceFinder */;
+			targetProxy = 9B047056E3490CE72DAADCE3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		188C2624FEDD9EAED922C261 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/DiskSpaceFinder.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Sources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.app;
+				PRODUCT_NAME = DiskSpaceFinder;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		3CA7D0A1B3700B9BCB3DC844 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.tests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiskSpaceFinder.app/Contents/MacOS/DiskSpaceFinder";
+			};
+			name = Release;
+		};
+		5E33CAA9971A7F7311733818 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/DiskSpaceFinder.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Sources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.app;
+				PRODUCT_NAME = DiskSpaceFinder;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		67CCE16D59860D169EE74BEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		78003525C0DBED6F3F9A37DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		9DB3B5259BCF81BE7BB939F6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.uitests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_TARGET_NAME = DiskSpaceFinder;
+			};
+			name = Debug;
+		};
+		B7254A2C4192353223ECAB7A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.uitests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_TARGET_NAME = DiskSpaceFinder;
+			};
+			name = Release;
+		};
+		EEBD41442DB279F7141DD430 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.tests;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.9;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DiskSpaceFinder.app/Contents/MacOS/DiskSpaceFinder";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0DB2A2C04C7235CB1F630BBF /* Build configuration list for PBXNativeTarget "DiskSpaceFinderUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9DB3B5259BCF81BE7BB939F6 /* Debug */,
+				B7254A2C4192353223ECAB7A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		451B019B6CCF7AFAA9DA476A /* Build configuration list for PBXProject "DiskSpaceFinder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				67CCE16D59860D169EE74BEC /* Debug */,
+				78003525C0DBED6F3F9A37DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4A8E51F07C99CAF29B081286 /* Build configuration list for PBXNativeTarget "DiskSpaceFinder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				188C2624FEDD9EAED922C261 /* Debug */,
+				5E33CAA9971A7F7311733818 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AA2F694758BA475519F19333 /* Build configuration list for PBXNativeTarget "DiskSpaceFinderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EEBD41442DB279F7141DD430 /* Debug */,
+				3CA7D0A1B3700B9BCB3DC844 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 901C4360D9D904905CBF937A /* Project object */;
+}

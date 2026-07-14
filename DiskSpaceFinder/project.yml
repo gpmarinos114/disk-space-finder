@@ -1,0 +1,51 @@
+name: DiskSpaceFinder
+options:
+  bundleIdPrefix: com.diskspacefinder
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+
+targets:
+  DiskSpaceFinder:
+    type: application
+    platform: macOS
+    sources:
+      - Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.diskspacefinder.app
+        INFOPLIST_FILE: Sources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Sources/DiskSpaceFinder.entitlements
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+        SWIFT_VERSION: "5.9"
+        PRODUCT_NAME: DiskSpaceFinder
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "1"
+
+  DiskSpaceFinderTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - Tests/UnitTests
+      - Tests/IntegrationTests
+    dependencies:
+      - target: DiskSpaceFinder
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        PRODUCT_BUNDLE_IDENTIFIER: com.diskspacefinder.tests
+        GENERATE_INFOPLIST_FILE: YES
+
+  DiskSpaceFinderUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - Tests/UITests
+    dependencies:
+      - target: DiskSpaceFinder
+    settings:
+      base:
+        SWIFT_VERSION: "5.9"
+        PRODUCT_BUNDLE_IDENTIFIER: com.diskspacefinder.uitests
+        GENERATE_INFOPLIST_FILE: YES
