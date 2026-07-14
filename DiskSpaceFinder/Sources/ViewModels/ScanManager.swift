@@ -30,6 +30,7 @@ class ScanManager: ObservableObject {
 
     private let scanner = FileScanner()
     private var scanTask: Task<Void, Never>?
+    private var pollTask: Task<Void, Never>?
     private var isDone = false
 
     var isScanning: Bool {
@@ -39,6 +40,7 @@ class ScanManager: ObservableObject {
 
     func startScan(path: String) {
         scanTask?.cancel()
+        pollTask?.cancel()
 
         let url = URL(fileURLWithPath: path)
 
@@ -54,54 +56,41 @@ class ScanManager: ObservableObject {
         filesScanned = 0
         isDone = false
 
-        let scannerRef = self.scanner
+        let scanner = self.scanner
+
+        pollTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 500_000_000)
+                if Task.isCancelled { break }
+
+                let count = await scanner.totalScanned
+                let path = await scanner.getCurrentPath()
+
+                guard let self, !self.isDone else { continue }
+                self.filesScanned = count
+                self.scanState = .scanning(path: path, filesScanned: count)
+            }
+        }
 
         scanTask = Task { [weak self] in
-            guard let self else { return }
-
-            let scanner = scannerRef
-
-            let counterTask = Task {
-                while !Task.isCancelled {
-                    try? await Task.sleep(nanoseconds: 500_000_000)
-                    if Task.isCancelled { break }
-
-                    let count = await scanner.totalScanned
-                    let path = await scanner.getCurrentPath()
-
-                    await MainActor.run { [weak self] in
-                        guard let self, !self.isDone else { return }
-                        self.filesScanned = count
-                        self.scanState = .scanning(path: path, filesScanned: count)
-                    }
-                }
-            }
-
             do {
                 let node = try await scanner.scanDirectory(at: url)
-                counterTask.cancel()
 
-                let finalCount = await scanner.totalScanned
-                await MainActor.run { [weak self] in
-                    guard let self else { return }
-                    self.isDone = true
-                    self.rootNode = node
-                    self.selectedNode = node
-                    self.filesScanned = finalCount
-                    self.scanState = .completed(node)
-                }
+                self?.pollTask?.cancel()
+                self?.isDone = true
+                self?.rootNode = node
+                self?.selectedNode = node
+                self?.filesScanned = await scanner.totalScanned
+                self?.scanState = .completed(node)
+                self?.permissionDeniedPaths = await scanner.getPermissionDeniedPaths()
             } catch is CancellationError {
-                counterTask.cancel()
-                await MainActor.run { [weak self] in
-                    self?.isDone = true
-                    self?.scanState = .idle
-                }
+                self?.pollTask?.cancel()
+                self?.isDone = true
+                self?.scanState = .idle
             } catch {
-                counterTask.cancel()
-                await MainActor.run { [weak self] in
-                    self?.isDone = true
-                    self?.scanState = .error(error.localizedDescription)
-                }
+                self?.pollTask?.cancel()
+                self?.isDone = true
+                self?.scanState = .error(error.localizedDescription)
             }
         }
     }
@@ -165,6 +154,7 @@ class ScanManager: ObservableObject {
     func cancelScan() {
         isDone = true
         scanTask?.cancel()
+        pollTask?.cancel()
         Task { await scanner.cancel() }
         scanState = .idle
     }
