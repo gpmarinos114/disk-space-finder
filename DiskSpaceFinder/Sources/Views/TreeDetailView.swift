@@ -8,6 +8,7 @@ struct TreeDetailView: View {
 
     @State private var selectedChild: FileNode?
     @State private var fileToDelete: FileNode?
+    @State private var fileToPreview: FileNode?
 
     init(
         node: FileNode,
@@ -41,6 +42,23 @@ struct TreeDetailView: View {
             if let file = fileToDelete {
                 Text("Are you sure you want to move \"\(file.name)\" to the Trash?")
             }
+        }
+        .sheet(item: $fileToPreview) { file in
+            VStack(spacing: 0) {
+                HStack {
+                    Text("File Preview")
+                        .font(.headline)
+                    Spacer()
+                    Button("Done") { fileToPreview = nil }
+                }
+                .padding()
+                .background(.bar)
+
+                Divider()
+
+                FilePreviewView(file: file)
+            }
+            .frame(width: 400, height: 300)
         }
     }
 
@@ -81,6 +99,8 @@ struct TreeDetailView: View {
                 .onTapGesture {
                     if child.isDirectory && !child.children.isEmpty {
                         onNodeSelected(child)
+                    } else if !child.isDirectory {
+                        fileToPreview = child
                     }
                 }
                 .contextMenu {
