@@ -87,7 +87,7 @@
 ### 3.5 Scan History
 - [x] Save scan snapshots to disk (JSON)
 - [x] Compare scans over time
-- [ ] Show growth trends
+- [x] Show growth trends
 
 ---
 
@@ -109,7 +109,7 @@
 
 ### 4.3 Disk Overview
 - [x] Show all mounted volumes with usage bars
-- [ ] APFS container visualization
+- [x] APFS container visualization
 - [x] Available vs used space
 
 ---
@@ -158,12 +158,12 @@
 - [ ] Hacker News Show HN
 
 ### 6.4 Premium Features (Paid Tier)
-- [ ] Duplicate file finder UI (backend exists)
-- [ ] Old/unused file finder
-- [ ] Scan history & comparison over time
-- [ ] Export reports (CSV, PDF)
+- [x] Duplicate file finder UI (backend exists)
+- [x] Old/unused file finder
+- [x] Scan history & comparison over time
+- [x] Export reports (CSV)
 - [ ] Menu bar widget
-- [ ] Quick Look file previews
+- [x] Quick Look file previews
 - [ ] Smart folders (saved searches)
 
 ### 6.5 Alternative Revenue Models

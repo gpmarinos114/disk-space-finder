@@ -1,4 +1,5 @@
 import SwiftUI
+import Charts
 
 struct ScanHistoryView: View {
     let historyManager = ScanHistoryManager()
@@ -7,6 +8,12 @@ struct ScanHistoryView: View {
     @State private var snapshot2: ScanSnapshot?
     @State private var showComparison = false
     @State private var isSelectingForCompare = false
+    @State private var selectedTab: HistoryTab = .list
+
+    enum HistoryTab: String, CaseIterable {
+        case list = "List"
+        case trends = "Trends"
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -20,27 +27,12 @@ struct ScanHistoryView: View {
                     description: Text("Complete a scan to save it to history")
                 )
             } else {
-                List(snapshots.sorted { $0.date > $1.date }) { snapshot in
-                    row(for: snapshot)
-                        .contextMenu {
-                            Button {
-                                snapshot1 = snapshot
-                                isSelectingForCompare = true
-                            } label: {
-                                Label("Compare With...", systemImage: "arrow.left.arrow.right")
-                            }
-
-                            Divider()
-
-                            Button(role: .destructive) {
-                                historyManager.delete(snapshot)
-                                snapshots = historyManager.loadAll()
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
-                        }
+                switch selectedTab {
+                case .list:
+                    listView
+                case .trends:
+                    trendsView
                 }
-                .listStyle(.inset)
             }
         }
         .onAppear {
@@ -74,11 +66,13 @@ struct ScanHistoryView: View {
 
             Spacer()
 
-            if isSelectingForCompare {
-                Text("Select a scan to compare with")
-                    .font(.caption)
-                    .foregroundStyle(.orange)
+            Picker("View", selection: $selectedTab) {
+                ForEach(HistoryTab.allCases, id: \.self) { tab in
+                    Text(tab.rawValue).tag(tab)
+                }
             }
+            .pickerStyle(.segmented)
+            .frame(width: 150)
 
             Text("\(snapshots.count) scans")
                 .font(.caption)
@@ -86,6 +80,157 @@ struct ScanHistoryView: View {
         }
         .padding()
         .background(.bar)
+    }
+
+    private var listView: some View {
+        List(snapshots.sorted { $0.date > $1.date }) { snapshot in
+            row(for: snapshot)
+                .contextMenu {
+                    Button {
+                        snapshot1 = snapshot
+                        isSelectingForCompare = true
+                    } label: {
+                        Label("Compare With...", systemImage: "arrow.left.arrow.right")
+                    }
+
+                    Divider()
+
+                    Button(role: .destructive) {
+                        historyManager.delete(snapshot)
+                        snapshots = historyManager.loadAll()
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                    }
+                }
+        }
+        .listStyle(.inset)
+    }
+
+    private var trendsView: some View {
+        ScrollView {
+            VStack(spacing: 24) {
+                sizeTrendChart
+                fileCountTrendChart
+                categoryTrendChart
+            }
+            .padding()
+        }
+    }
+
+    private var sizeTrendChart: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Storage Usage Over Time")
+                .font(.headline)
+
+            let sorted = snapshots.sorted { $0.date < $1.date }
+
+            Chart(sorted, id: \.id) { snapshot in
+                LineMark(
+                    x: .value("Date", snapshot.date),
+                    y: .value("Size", snapshot.totalSize)
+                )
+                .foregroundStyle(.blue.gradient)
+
+                PointMark(
+                    x: .value("Date", snapshot.date),
+                    y: .value("Size", snapshot.totalSize)
+                )
+                .foregroundStyle(.blue)
+            }
+            .chartYAxis {
+                AxisMarks { value in
+                    AxisValueLabel {
+                        Text(ByteCountFormatter.string(
+                            fromByteCount: Int64(value.as(Int.self) ?? 0),
+                            countStyle: .file
+                        ))
+                    }
+                }
+            }
+            .frame(height: 200)
+        }
+        .padding()
+        .background(.quaternary)
+        .cornerRadius(8)
+    }
+
+    private var fileCountTrendChart: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("File Count Over Time")
+                .font(.headline)
+
+            let sorted = snapshots.sorted { $0.date < $1.date }
+
+            Chart(sorted, id: \.id) { snapshot in
+                BarMark(
+                    x: .value("Date", snapshot.date),
+                    y: .value("Files", snapshot.fileCount)
+                )
+                .foregroundStyle(.green.gradient)
+            }
+            .frame(height: 150)
+        }
+        .padding()
+        .background(.quaternary)
+        .cornerRadius(8)
+    }
+
+    private var categoryTrendChart: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Category Breakdown (Latest)")
+                .font(.headline)
+
+            if let latest = snapshots.sorted(by: { $0.date > $1.date }).first {
+                let categories = latest.categoryBreakdown.sorted { $0.size > $1.size }
+
+                Chart(categories, id: \.category) { cat in
+                    SectorMark(
+                        angle: .value("Size", cat.size),
+                        innerRadius: .ratio(0.5),
+                        angularInset: 1
+                    )
+                    .foregroundStyle(colorForCategory(cat.category))
+                    .annotation(position: .overlay) {
+                        let percentage = Double(cat.size) / Double(latest.totalSize) * 100
+                        if percentage > 5 {
+                            Text(cat.category)
+                                .font(.caption2)
+                                .foregroundStyle(.white)
+                        }
+                    }
+                }
+                .frame(height: 200)
+
+                HStack {
+                    ForEach(categories.prefix(6), id: \.category) { cat in
+                        HStack(spacing: 4) {
+                            Circle()
+                                .fill(colorForCategory(cat.category))
+                                .frame(width: 8, height: 8)
+                            Text(cat.category)
+                                .font(.caption2)
+                        }
+                    }
+                }
+            }
+        }
+        .padding()
+        .background(.quaternary)
+        .cornerRadius(8)
+    }
+
+    private func colorForCategory(_ category: String) -> Color {
+        switch category {
+        case "Documents": return .blue
+        case "Images": return .green
+        case "Video": return .purple
+        case "Audio": return .orange
+        case "Code": return .cyan
+        case "Archives": return .brown
+        case "Applications": return .red
+        case "Fonts": return .pink
+        default: return .gray
+        }
     }
 
     private func row(for snapshot: ScanSnapshot) -> some View {
@@ -198,9 +343,7 @@ struct ScanComparisonView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     comparisonCard
-
                     categoryComparison
-
                     topFilesComparison
                 }
                 .padding()

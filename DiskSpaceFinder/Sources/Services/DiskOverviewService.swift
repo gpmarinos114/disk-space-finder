@@ -11,6 +11,7 @@ struct DiskVolume: Identifiable {
     let isRemovable: Bool
     let isInternal: Bool
     let filesystemType: String
+    let containerIdentifier: String?
 
     var usagePercentage: Double {
         guard totalSpace > 0 else { return 0 }
@@ -31,6 +32,29 @@ struct DiskVolume: Identifiable {
 
     var formattedPurgeable: String {
         ByteCountFormatter.string(fromByteCount: purgeableSpace, countStyle: .file)
+    }
+}
+
+struct APFSContainer: Identifiable {
+    let id = UUID()
+    let identifier: String
+    let volumes: [DiskVolume]
+
+    var totalSpace: Int64 {
+        volumes.reduce(0) { $0 + $1.totalSpace }
+    }
+
+    var usedSpace: Int64 {
+        volumes.reduce(0) { $0 + $1.usedSpace }
+    }
+
+    var availableSpace: Int64 {
+        volumes.reduce(0) { $0 + $1.availableSpace }
+    }
+
+    var usagePercentage: Double {
+        guard totalSpace > 0 else { return 0 }
+        return Double(usedSpace) / Double(totalSpace) * 100
     }
 }
 
@@ -64,6 +88,7 @@ class DiskOverviewService {
             let used = total - available
 
             let filesystemType = getFileSystemType(for: url.path)
+            let containerId = getAPFSContainer(for: url.path)
 
             let volume = DiskVolume(
                 name: name,
@@ -74,12 +99,26 @@ class DiskOverviewService {
                 purgeableSpace: purgeable,
                 isRemovable: isRemovable,
                 isInternal: isInternal,
-                filesystemType: filesystemType
+                filesystemType: filesystemType,
+                containerIdentifier: containerId
             )
             volumes.append(volume)
         }
 
         return volumes.sorted { $0.totalSpace > $1.totalSpace }
+    }
+
+    static func getAPFSContainers(volumes: [DiskVolume]) -> [APFSContainer] {
+        var containerMap: [String: [DiskVolume]] = [:]
+
+        for volume in volumes {
+            if let containerId = volume.containerIdentifier {
+                containerMap[containerId, default: []].append(volume)
+            }
+        }
+
+        return containerMap.map { APFSContainer(identifier: $0.key, volumes: $0.value) }
+            .sorted { $0.totalSpace > $1.totalSpace }
     }
 
     private static func getFileSystemType(for path: String) -> String {
@@ -103,5 +142,28 @@ class DiskOverviewService {
         } catch {}
 
         return "Unknown"
+    }
+
+    private static func getAPFSContainer(for path: String) -> String? {
+        let task = Process()
+        task.executableURL = URL(fileURLWithPath: "/usr/sbin/diskutil")
+        task.arguments = ["info", "-plist", path]
+
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.standardError = Pipe()
+
+        do {
+            try task.run()
+            task.waitUntilExit()
+
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            if let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+               let containerId = plist["APFSContainerReference"] as? String {
+                return containerId
+            }
+        } catch {}
+
+        return nil
     }
 }
