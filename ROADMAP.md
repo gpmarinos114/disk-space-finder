@@ -129,6 +129,50 @@
 
 ---
 
+## Phase 6: Monetization
+
+### 6.1 App Store Preparation
+- [ ] Apple Developer Program enrollment ($99/year)
+- [ ] App Store icon (1024x1024 + all sizes)
+- [ ] App Store screenshots (6.5", 13" MacBook, 14", 16")
+- [ ] App Store description and keywords
+- [ ] Privacy policy page
+- [ ] App Store review guidelines compliance
+- [ ] In-app purchase or upfront pricing ($4.99-9.99)
+
+### 6.2 Code Signing & Distribution
+- [ ] Developer ID certificate
+- [ ] Notarization with Apple
+- [ ] DMG installer with custom background
+- [ ] Auto-updater (Sparkle framework)
+- [ ] Homebrew Cask formula
+
+### 6.3 Landing Page & Marketing
+- [ ] Marketing website (domain + hosting)
+- [ ] Feature screenshots/GIFs
+- [ ] Video demo (30-60 seconds)
+- [ ] Product Hunt launch
+- [ ] Reddit r/macapps post
+- [ ] Twitter/X launch thread
+- [ ] Hacker News Show HN
+
+### 6.4 Premium Features (Paid Tier)
+- [ ] Duplicate file finder UI (backend exists)
+- [ ] Old/unused file finder
+- [ ] Scan history & comparison over time
+- [ ] Export reports (CSV, PDF)
+- [ ] Menu bar widget
+- [ ] Quick Look file previews
+- [ ] Smart folders (saved searches)
+
+### 6.5 Alternative Revenue Models
+- [ ] Free basic + Pro upgrade ($9.99 one-time)
+- [ ] Tip jar / coffee link
+- [ ] GitHub Sponsors
+- [ ] Enterprise site license
+
+---
+
 ## Key Technical Decisions
 
 | Decision | Status |
