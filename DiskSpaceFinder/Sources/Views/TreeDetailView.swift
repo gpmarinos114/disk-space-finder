@@ -87,6 +87,8 @@ struct TreeDetailView: View {
                     Button {
                         if child.isDirectory {
                             onNodeSelected(child)
+                        } else {
+                            NSWorkspace.shared.open(URL(fileURLWithPath: child.path))
                         }
                     } label: {
                         Label("Open", systemImage: "arrow.right")
@@ -96,6 +98,13 @@ struct TreeDetailView: View {
                         NSWorkspace.shared.selectFile(child.path, inFileViewerRootedAtPath: "")
                     } label: {
                         Label("Show in Finder", systemImage: "folder")
+                    }
+
+                    Button {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(child.path, forType: .string)
+                    } label: {
+                        Label("Copy Path", systemImage: "doc.on.doc")
                     }
 
                     Divider()

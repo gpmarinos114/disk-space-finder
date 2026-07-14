@@ -69,7 +69,7 @@
 - [x] Hash files (SHA256) for exact matches
 - [x] Group duplicates with combined wasted space
 - [x] Quick scan mode: match by size + name first
-- [ ] Wire up to main UI
+- [x] Wire up to main UI
 
 ### 3.3 Large/Old File Finder
 - [x] Sort by size, find space hogs
@@ -80,8 +80,8 @@
 - [x] Reveal in Finder
 - [x] Move to Trash (with confirmation)
 - [x] Delete from any view (treemap, tree, charts)
-- [ ] Open file
-- [ ] Copy path
+- [x] Open file
+- [x] Copy path
 - [ ] Compress folder
 
 ### 3.5 Scan History
@@ -96,9 +96,10 @@
 ### 4.1 UI/UX
 - [x] Native macOS look with sidebar + detail split view
 - [x] Dark/light mode support (automatic)
-- [ ] Drag-and-drop folders onto app to scan
+- [x] Drag-and-drop folders onto app to scan
 - [x] Progress indicator during scan
-- [ ] Notification when scan completes
+- [x] Notification when scan completes
+- [x] Keyboard shortcuts (⌘O open, ⌘. cancel, ⌘[ back)
 
 ### 4.2 Performance
 - [ ] Incremental scanning (only re-scan changed directories)
@@ -124,7 +125,7 @@
 ### 5.2 Extras
 - [ ] Spotlight integration (metadata import)
 - [ ] Menu bar widget for quick disk usage
-- [ ] Keyboard shortcuts throughout
+- [x] Keyboard shortcuts throughout
 - [ ] Export reports (CSV, PDF)
 
 ---

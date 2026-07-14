@@ -1,16 +1,19 @@
 import SwiftUI
+import UserNotifications
 
 struct ContentView: View {
     @EnvironmentObject var scanManager: ScanManager
     @State private var showingFolderPicker = false
     @State private var selectedVisualization: VisualizationType = .treemap
     @State private var scanPath: String = ""
+    @State private var showScanComplete = false
 
     enum VisualizationType: String, CaseIterable {
         case treemap = "Treemap"
         case sunburst = "Sunburst"
         case tree = "Tree"
         case charts = "Charts"
+        case duplicates = "Duplicates"
     }
 
     var body: some View {
@@ -24,6 +27,7 @@ struct ContentView: View {
                 Button(action: { showingFolderPicker = true }) {
                     Label("Scan Folder", systemImage: "folder.badge.plus")
                 }
+                .keyboardShortcut("o", modifiers: .command)
             }
 
             ToolbarItem(placement: .automatic) {
@@ -31,6 +35,7 @@ struct ContentView: View {
                     Button(action: { scanManager.cancelScan() }) {
                         Label("Cancel", systemImage: "xmark.circle.fill")
                     }
+                    .keyboardShortcut(".", modifiers: .command)
                 }
             }
 
@@ -53,6 +58,63 @@ struct ContentView: View {
                 scanPath = url.path
                 scanManager.startScan(path: url.path)
             }
+        }
+        .onDrop(of: [.fileURL], isTargeted: nil) { providers in
+            handleDrop(providers: providers)
+        }
+        .onChange(of: scanManager.scanState) { _, newState in
+            if case .completed(let node) = newState {
+                showScanComplete = true
+                sendNotification(title: "Scan Complete", body: "\(node.name) - \(node.formattedSize)")
+            }
+        }
+        .alert("Scan Complete", isPresented: $showScanComplete) {
+            Button("OK") {}
+        } message: {
+            if case .completed(let node) = scanManager.scanState {
+                Text("Scanned \(node.formattedSize) in \(node.name)")
+            }
+        }
+        .onAppear {
+            NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
+                if event.modifierFlags.contains(.command) && event.charactersIgnoringModifiers == "w" {
+                    return nil
+                }
+                return event
+            }
+        }
+    }
+
+    private func handleDrop(providers: [NSItemProvider]) -> Bool {
+        guard let provider = providers.first else { return false }
+
+        provider.loadItem(forTypeIdentifier: "public.file-url", options: nil) { data, error in
+            guard let data = data as? Data,
+                  let url = URL(dataRepresentation: data, relativeTo: nil) else { return }
+
+            Task { @MainActor in
+                var isDir: ObjCBool = false
+                if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDir), isDir.boolValue {
+                    scanPath = url.path
+                    scanManager.startScan(path: url.path)
+                }
+            }
+        }
+        return true
+    }
+
+    private func sendNotification(title: String, body: String) {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound]) { granted, _ in
+            guard granted else { return }
+
+            let content = UNMutableNotificationContent()
+            content.title = title
+            content.body = body
+            content.sound = .default
+
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+            center.add(request)
         }
     }
 
@@ -109,10 +171,14 @@ struct ContentView: View {
             Text("Select a folder to scan")
                 .font(.title3)
                 .foregroundStyle(.secondary)
+            Text("or drag a folder onto the window")
+                .font(.caption)
+                .foregroundStyle(.tertiary)
             Button("Choose Folder") {
                 showingFolderPicker = true
             }
             .buttonStyle(.borderedProminent)
+            .keyboardShortcut("o", modifiers: .command)
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -139,6 +205,7 @@ struct ContentView: View {
                 scanManager.cancelScan()
             }
             .buttonStyle(.bordered)
+            .keyboardShortcut(".", modifiers: .command)
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -236,6 +303,8 @@ struct ContentView: View {
                                 },
                                 onDelete: { _ = scanManager.deleteFile($0) }
                             )
+                        case .duplicates:
+                            DuplicateFilesView(node: selected)
                         }
                     }
                 }
@@ -263,6 +332,7 @@ struct BreadcrumbView: View {
                     Image(systemName: "chevron.left")
                 }
                 .buttonStyle(.borderless)
+                .keyboardShortcut("[", modifiers: .command)
 
                 ForEach(Array(path.enumerated()), id: \.element.id) { index, node in
                     if index > 0 {
