@@ -20,6 +20,7 @@
 		7B60854595274D92E6833501 /* ScanHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2F104B2A2AEF5DF0A66AD5 /* ScanHistoryView.swift */; };
 		83A6283A56EF9060307F6FA7 /* ScanSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D2EC3D021498951829FD61 /* ScanSnapshot.swift */; };
 		8AF3BAC966FEB3FEFE13FCB1 /* FileCategoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D3D4530684EF2EA0B78E29 /* FileCategoryTests.swift */; };
+		920067158197CC9A1F27E1D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBE0E546158DD2FBB335CAB6 /* Assets.xcassets */; };
 		A242321145175BDA2F882D04 /* CSVExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0280C5C6FD6659995FF40465 /* CSVExporter.swift */; };
 		A46F12B342F30F287861C765 /* FileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCA0DB304862A215AA81C8CE /* FileNode.swift */; };
 		ADC87F0D73B73A7F30496852 /* DiskOverviewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90957F95FD6490FA700361D /* DiskOverviewService.swift */; };
@@ -76,6 +77,7 @@
 		B2AE31B69B264EA42C63D2A7 /* SunburstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunburstView.swift; sourceTree = "<group>"; };
 		B6B8018ACEEF15525F15BB48 /* DuplicateFilesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateFilesView.swift; sourceTree = "<group>"; };
 		B9597E8401F4ADA14AE13C46 /* FileCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCategory.swift; sourceTree = "<group>"; };
+		CBE0E546158DD2FBB335CAB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CCA0DB304862A215AA81C8CE /* FileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNode.swift; sourceTree = "<group>"; };
 		CFB0E6E3F6687CDFD509CB98 /* DiskSpaceFinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskSpaceFinderApp.swift; sourceTree = "<group>"; };
 		E38CF97BC60B2A2B3832863A /* DiskSpaceFinderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiskSpaceFinderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +122,7 @@
 		347D7D1D3936A58B2AEB5AF0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CBE0E546158DD2FBB335CAB6 /* Assets.xcassets */,
 				F1E7652E8CF5310D4892F342 /* DiskSpaceFinder.entitlements */,
 				CFB0E6E3F6687CDFD509CB98 /* DiskSpaceFinderApp.swift */,
 				F6DED731E4E29FBE09F1E448 /* Info.plist */,
@@ -251,6 +254,7 @@
 			buildConfigurationList = 4A8E51F07C99CAF29B081286 /* Build configuration list for PBXNativeTarget "DiskSpaceFinder" */;
 			buildPhases = (
 				513B1B6B96BBB9A577EDDCB7 /* Sources */,
+				7B8E13B15226D100FDE8D12F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -275,6 +279,9 @@
 					4477E2F67FF5702F3125B7F4 = {
 						TestTargetID = D934E319237697D03904C31B;
 					};
+					D934E319237697D03904C31B = {
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 451B019B6CCF7AFAA9DA476A /* Build configuration list for PBXProject "DiskSpaceFinder" */;
@@ -297,6 +304,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7B8E13B15226D100FDE8D12F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				920067158197CC9A1F27E1D2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0E797603E3CC8F42320048EF /* Sources */ = {
@@ -367,8 +385,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sources/DiskSpaceFinder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -376,6 +396,11 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.0;
+				NSDesktopFolderUsageDescription = "Disk Space Finder needs access to scan your Desktop folder for disk usage analysis.";
+				NSDocumentsFolderUsageDescription = "Disk Space Finder needs access to scan your Documents folder for disk usage analysis.";
+				NSDownloadsFolderUsageDescription = "Disk Space Finder needs access to scan your Downloads folder for disk usage analysis.";
+				NSNetworkVolumesUsageDescription = "Disk Space Finder needs access to scan network volumes for disk usage analysis.";
+				NSRemovableVolumesUsageDescription = "Disk Space Finder needs access to scan removable volumes for disk usage analysis.";
 				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.app;
 				PRODUCT_NAME = DiskSpaceFinder;
 				SDKROOT = macosx;
@@ -406,8 +431,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Sources/DiskSpaceFinder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Sources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -415,6 +442,11 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0.0;
+				NSDesktopFolderUsageDescription = "Disk Space Finder needs access to scan your Desktop folder for disk usage analysis.";
+				NSDocumentsFolderUsageDescription = "Disk Space Finder needs access to scan your Documents folder for disk usage analysis.";
+				NSDownloadsFolderUsageDescription = "Disk Space Finder needs access to scan your Downloads folder for disk usage analysis.";
+				NSNetworkVolumesUsageDescription = "Disk Space Finder needs access to scan network volumes for disk usage analysis.";
+				NSRemovableVolumesUsageDescription = "Disk Space Finder needs access to scan removable volumes for disk usage analysis.";
 				PRODUCT_BUNDLE_IDENTIFIER = com.diskspacefinder.app;
 				PRODUCT_NAME = DiskSpaceFinder;
 				SDKROOT = macosx;

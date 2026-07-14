@@ -22,6 +22,16 @@ targets:
         PRODUCT_NAME: DiskSpaceFinder
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
+        # App Store Settings
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_HARDENED_RUNTIME: YES
+        CODE_SIGN_STYLE: Automatic
+        # Privacy
+        NSDesktopFolderUsageDescription: "Disk Space Finder needs access to scan your Desktop folder for disk usage analysis."
+        NSDocumentsFolderUsageDescription: "Disk Space Finder needs access to scan your Documents folder for disk usage analysis."
+        NSDownloadsFolderUsageDescription: "Disk Space Finder needs access to scan your Downloads folder for disk usage analysis."
+        NSRemovableVolumesUsageDescription: "Disk Space Finder needs access to scan removable volumes for disk usage analysis."
+        NSNetworkVolumesUsageDescription: "Disk Space Finder needs access to scan network volumes for disk usage analysis."
 
   DiskSpaceFinderTests:
     type: bundle.unit-test
