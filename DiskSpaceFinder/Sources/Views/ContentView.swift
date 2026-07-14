@@ -18,6 +18,7 @@ struct ContentView: View {
         case duplicates = "Duplicates"
         case oldFiles = "Old Files"
         case history = "History"
+        case diskOverview = "Disks"
     }
 
     var body: some View {
@@ -267,7 +268,11 @@ struct ContentView: View {
 
     @ViewBuilder
     private var detailView: some View {
-        if let _ = scanManager.rootNode, let selected = scanManager.selectedNode {
+        if selectedVisualization == .diskOverview {
+            DiskOverviewView()
+        } else if selectedVisualization == .history {
+            ScanHistoryView()
+        } else if let _ = scanManager.rootNode, let selected = scanManager.selectedNode {
             VStack(spacing: 0) {
                 BreadcrumbView(
                     path: scanManager.navigationPath,
@@ -350,6 +355,8 @@ struct ContentView: View {
                             )
                         case .history:
                             ScanHistoryView()
+                        case .diskOverview:
+                            DiskOverviewView()
                         }
                     }
                 }
