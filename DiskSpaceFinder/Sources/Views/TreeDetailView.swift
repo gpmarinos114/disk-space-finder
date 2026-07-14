@@ -107,6 +107,14 @@ struct TreeDetailView: View {
                         Label("Copy Path", systemImage: "doc.on.doc")
                     }
 
+                    if child.isDirectory {
+                        Button {
+                            compressFolder(child)
+                        } label: {
+                            Label("Compress", systemImage: "archivebox")
+                        }
+                    }
+
                     Divider()
 
                     Button(role: .destructive) {
@@ -161,6 +169,18 @@ struct TreeDetailView: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
                 .frame(width: 40, alignment: .trailing)
+        }
+    }
+
+    private func compressFolder(_ node: FileNode) {
+        let url = URL(fileURLWithPath: node.path)
+        Task {
+            do {
+                let zipURL = try CompressService.compressFolder(at: url)
+                NSWorkspace.shared.selectFile(zipURL.path, inFileViewerRootedAtPath: "")
+            } catch {
+                // Handle error
+            }
         }
     }
 }

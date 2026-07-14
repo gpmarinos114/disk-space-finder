@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var scanPath: String = ""
     @State private var showScanComplete = false
     @State private var showExportSheet = false
+    @State private var showHistory = false
 
     enum VisualizationType: String, CaseIterable {
         case treemap = "Treemap"
@@ -16,6 +17,7 @@ struct ContentView: View {
         case charts = "Charts"
         case duplicates = "Duplicates"
         case oldFiles = "Old Files"
+        case history = "History"
     }
 
     var body: some View {
@@ -77,6 +79,11 @@ struct ContentView: View {
             if case .completed(let node) = newState {
                 showScanComplete = true
                 sendNotification(title: "Scan Complete", body: "\(node.name) - \(node.formattedSize)")
+
+                Task.detached {
+                    let snapshot = ScanSnapshot.from(node: node)
+                    ScanHistoryManager().save(snapshot)
+                }
             }
         }
         .alert("Scan Complete", isPresented: $showScanComplete) {
@@ -341,6 +348,8 @@ struct ContentView: View {
                                 },
                                 onDelete: { _ = scanManager.deleteFile($0) }
                             )
+                        case .history:
+                            ScanHistoryView()
                         }
                     }
                 }

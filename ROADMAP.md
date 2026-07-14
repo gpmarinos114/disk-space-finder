@@ -82,11 +82,11 @@
 - [x] Delete from any view (treemap, tree, charts)
 - [x] Open file
 - [x] Copy path
-- [ ] Compress folder
+- [x] Compress folder
 
 ### 3.5 Scan History
-- [ ] Save scan snapshots to disk (JSON/SQLite)
-- [ ] Compare scans over time
+- [x] Save scan snapshots to disk (JSON)
+- [x] Compare scans over time
 - [ ] Show growth trends
 
 ---
