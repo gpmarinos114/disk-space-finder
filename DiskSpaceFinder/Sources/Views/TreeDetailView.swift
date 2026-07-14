@@ -46,8 +46,9 @@ struct TreeDetailView: View {
         .sheet(item: $fileToPreview) { file in
             VStack(spacing: 0) {
                 HStack {
-                    Text("File Preview")
+                    Text(file.name)
                         .font(.headline)
+                        .lineLimit(1)
                     Spacer()
                     Button("Done") { fileToPreview = nil }
                 }
@@ -58,7 +59,7 @@ struct TreeDetailView: View {
 
                 FilePreviewView(file: file)
             }
-            .frame(width: 400, height: 300)
+            .frame(width: 450, height: 350)
         }
     }
 

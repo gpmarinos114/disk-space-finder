@@ -1,32 +1,34 @@
 import SwiftUI
-import QuickLook
 
 struct FilePreviewView: View {
     let file: FileNode
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             Spacer()
 
             Image(systemName: iconForFile)
-                .font(.system(size: 64))
+                .font(.system(size: 48))
                 .foregroundStyle(colorForFile)
 
             Text(file.name)
-                .font(.title2)
+                .font(.title3)
                 .fontWeight(.medium)
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 24)
 
             Text(file.formattedSize)
-                .font(.title3)
+                .font(.headline)
                 .foregroundStyle(.secondary)
 
             if let ext = file.fileExtension {
                 Text(ext.uppercased())
                     .font(.caption)
-                    .padding(.horizontal, 8)
+                    .padding(.horizontal, 10)
                     .padding(.vertical, 4)
                     .background(.quaternary)
-                    .cornerRadius(4)
+                    .cornerRadius(6)
             }
 
             if let date = file.modificationDate {
@@ -46,10 +48,12 @@ struct FilePreviewView: View {
                 }
                 .buttonStyle(.bordered)
             }
+            .padding(.top, 8)
 
             Spacer()
         }
-        .frame(maxWidth: .infinity)
+        .padding(24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var iconForFile: String {
