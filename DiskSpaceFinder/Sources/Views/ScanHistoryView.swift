@@ -3,9 +3,10 @@ import SwiftUI
 struct ScanHistoryView: View {
     let historyManager = ScanHistoryManager()
     @State private var snapshots: [ScanSnapshot] = []
-    @State private var selectedSnapshot: ScanSnapshot?
-    @State private var compareSnapshot: ScanSnapshot?
+    @State private var snapshot1: ScanSnapshot?
+    @State private var snapshot2: ScanSnapshot?
     @State private var showComparison = false
+    @State private var isSelectingForCompare = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -19,20 +20,14 @@ struct ScanHistoryView: View {
                     description: Text("Complete a scan to save it to history")
                 )
             } else {
-                List(snapshots.sorted { $0.date > $1.date }, selection: $selectedSnapshot) { snapshot in
+                List(snapshots.sorted { $0.date > $1.date }) { snapshot in
                     row(for: snapshot)
                         .contextMenu {
                             Button {
-                                selectedSnapshot = snapshot
+                                snapshot1 = snapshot
+                                isSelectingForCompare = true
                             } label: {
-                                Label("View Details", systemImage: "eye")
-                            }
-
-                            Button {
-                                compareSnapshot = snapshot
-                                showComparison = true
-                            } label: {
-                                Label("Compare", systemImage: "arrow.left.arrow.right")
+                                Label("Compare With...", systemImage: "arrow.left.arrow.right")
                             }
 
                             Divider()
@@ -51,9 +46,23 @@ struct ScanHistoryView: View {
         .onAppear {
             snapshots = historyManager.loadAll()
         }
+        .sheet(isPresented: $isSelectingForCompare) {
+            ComparePickerView(
+                snapshots: snapshots.sorted { $0.date > $1.date },
+                excludedSnapshot: snapshot1,
+                onSelect: { selected in
+                    snapshot2 = selected
+                    isSelectingForCompare = false
+                    showComparison = true
+                },
+                onCancel: {
+                    isSelectingForCompare = false
+                }
+            )
+        }
         .sheet(isPresented: $showComparison) {
-            if let selected = selectedSnapshot, let compare = compareSnapshot {
-                ScanComparisonView(snapshot1: selected, snapshot2: compare)
+            if let s1 = snapshot1, let s2 = snapshot2 {
+                ScanComparisonView(snapshot1: s1, snapshot2: s2)
             }
         }
     }
@@ -64,6 +73,12 @@ struct ScanHistoryView: View {
                 .font(.headline)
 
             Spacer()
+
+            if isSelectingForCompare {
+                Text("Select a scan to compare with")
+                    .font(.caption)
+                    .foregroundStyle(.orange)
+            }
 
             Text("\(snapshots.count) scans")
                 .font(.caption)
@@ -98,7 +113,59 @@ struct ScanHistoryView: View {
             }
         }
         .padding(.vertical, 4)
-        .tag(snapshot)
+    }
+}
+
+struct ComparePickerView: View {
+    let snapshots: [ScanSnapshot]
+    let excludedSnapshot: ScanSnapshot?
+    let onSelect: (ScanSnapshot) -> Void
+    let onCancel: () -> Void
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("Select Scan to Compare")
+                    .font(.headline)
+                Spacer()
+                Button("Cancel") { onCancel() }
+            }
+            .padding()
+            .background(.bar)
+
+            Divider()
+
+            List(snapshots.filter { $0.id != excludedSnapshot?.id }) { snapshot in
+                Button {
+                    onSelect(snapshot)
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(snapshot.rootPath)
+                                .font(.subheadline)
+                                .lineLimit(1)
+                                .truncationMode(.middle)
+                            Text(snapshot.date, style: .relative)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Spacer()
+
+                        VStack(alignment: .trailing, spacing: 4) {
+                            Text(ByteCountFormatter.string(fromByteCount: snapshot.totalSize, countStyle: .file))
+                                .font(.headline)
+                            Text("\(snapshot.fileCount.formatted()) files")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+            .listStyle(.inset)
+        }
+        .frame(width: 500, height: 400)
     }
 }
 
