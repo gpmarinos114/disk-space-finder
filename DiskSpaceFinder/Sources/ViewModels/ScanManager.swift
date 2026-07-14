@@ -26,6 +26,7 @@ class ScanManager: ObservableObject {
     @Published var sortOption: SortOption = .sizeDescending
     @Published var permissionDeniedPaths: [String] = []
     @Published var filesScanned: Int = 0
+    @Published var isLoadingChildren = false
 
     private let scanner = FileScanner()
     private var scanTask: Task<Void, Never>?
@@ -92,6 +93,62 @@ class ScanManager: ObservableObject {
         }
     }
 
+    func loadChildren(for node: FileNode) async {
+        guard node.isDirectory && !node.childrenLoaded else { return }
+
+        isLoadingChildren = true
+        let url = URL(fileURLWithPath: node.path)
+
+        do {
+            let children = try await scanner.loadChildren(for: url)
+            updateNode(node, with: children)
+        } catch {
+            // Handle error silently
+        }
+        isLoadingChildren = false
+    }
+
+    private func updateNode(_ target: FileNode, with children: [FileNode]) {
+        rootNode = replaceNode(target, in: rootNode, with: children)
+        if selectedNode?.id == target.id {
+            selectedNode = rootNode?.children.first { $0.id == target.id }
+        }
+    }
+
+    private func replaceNode(_ target: FileNode, in node: FileNode?, with children: [FileNode]) -> FileNode? {
+        guard let node else { return nil }
+
+        if node.id == target.id {
+            return FileNode(
+                id: node.id,
+                name: node.name,
+                path: node.path,
+                size: node.size,
+                children: children,
+                isDirectory: node.isDirectory,
+                fileExtension: node.fileExtension,
+                modificationDate: node.modificationDate,
+                creationDate: node.creationDate,
+                childrenLoaded: true
+            )
+        }
+
+        let newChildren = node.children.compactMap { replaceNode(target, in: $0, with: children) }
+
+        return FileNode(
+            id: node.id,
+            name: node.name,
+            path: node.path,
+            size: node.size,
+            children: newChildren,
+            isDirectory: node.isDirectory,
+            fileExtension: node.fileExtension,
+            modificationDate: node.modificationDate,
+            creationDate: node.creationDate,
+            childrenLoaded: node.childrenLoaded
+        )
+    }
+
     func cancelScan() {
         scanTask?.cancel()
         Task { await scanner.cancel() }
@@ -153,7 +210,8 @@ class ScanManager: ObservableObject {
             isDirectory: node.isDirectory,
             fileExtension: node.fileExtension,
             modificationDate: node.modificationDate,
-            creationDate: node.creationDate
+            creationDate: node.creationDate,
+            childrenLoaded: node.childrenLoaded
         )
     }
 

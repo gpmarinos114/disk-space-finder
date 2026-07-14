@@ -10,6 +10,7 @@ struct FileNode: Identifiable, Codable, Sendable, Hashable {
     let fileExtension: String?
     let modificationDate: Date?
     let creationDate: Date?
+    let childrenLoaded: Bool
 
     init(
         id: UUID = UUID(),
@@ -20,7 +21,8 @@ struct FileNode: Identifiable, Codable, Sendable, Hashable {
         isDirectory: Bool,
         fileExtension: String? = nil,
         modificationDate: Date? = nil,
-        creationDate: Date? = nil
+        creationDate: Date? = nil,
+        childrenLoaded: Bool = true
     ) {
         self.id = id
         self.name = name
@@ -31,6 +33,7 @@ struct FileNode: Identifiable, Codable, Sendable, Hashable {
         self.fileExtension = fileExtension
         self.modificationDate = modificationDate
         self.creationDate = creationDate
+        self.childrenLoaded = childrenLoaded
     }
 }
 
@@ -44,15 +47,6 @@ extension FileNode {
             return children.reduce(0) { $0 + ($1.isDirectory ? $1.childCount + 1 : 1) }
         }
         return 0
-    }
-
-    var percentageOfParent: Double {
-        guard let parentSize = parentSize, parentSize > 0 else { return 1.0 }
-        return Double(size) / Double(parentSize)
-    }
-
-    private var parentSize: Int64? {
-        nil
     }
 
     func sortedChildren(by option: SortOption) -> [FileNode] {

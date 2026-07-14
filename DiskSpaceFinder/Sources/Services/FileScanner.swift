@@ -6,22 +6,6 @@ actor FileScanner {
     private(set) var totalScanned = 0
     private(set) var currentPath: String = ""
 
-    private static let skipDirectories: Set<String> = [
-        ".git", ".svn", ".hg",
-        "node_modules", ".npm", ".yarn",
-        ".cache", "Caches", ".Trash",
-        "Library/Caches", "Library/Logs",
-        ".DS_Store", ".fseventsd",
-        ".Spotlight-V100", ".TemporaryItems",
-        ".vol", ".vol.icloud"
-    ]
-
-    private static let skipPaths: Set<String> = [
-        "/dev", "/System/Volumes", "/private/var/vm",
-        "/Library/Developer", "/Library/Caches",
-        "/System/Library/Caches"
-    ]
-
     func cancel() {
         isCancelled = true
     }
@@ -42,30 +26,55 @@ actor FileScanner {
         return try await scan(url: url, depth: 0)
     }
 
-    private func shouldSkip(_ url: URL) -> Bool {
-        let path = url.path
-        let name = url.lastPathComponent
+    func loadChildren(for url: URL) async throws -> [FileNode] {
+        let resourceKeys: Set<URLResourceKey> = [
+            .fileSizeKey, .isDirectoryKey, .contentModificationDateKey, .creationDateKey, .nameKey
+        ]
 
-        if Self.skipDirectories.contains(name) {
-            return true
+        let contents: [URL]
+        do {
+            contents = try FileManager.default.contentsOfDirectory(
+                at: url, includingPropertiesForKeys: Array(resourceKeys), options: [.skipsHiddenFiles]
+            )
+        } catch {
+            permissionDeniedPaths.append(url.path)
+            return []
         }
 
-        for skipPath in Self.skipPaths {
-            if path.hasPrefix(skipPath) {
-                return true
+        var children: [FileNode] = []
+
+        for childURL in contents {
+            if isCancelled { break }
+
+            do {
+                let resourceValues = try childURL.resourceValues(forKeys: resourceKeys)
+                let name = resourceValues.name ?? childURL.lastPathComponent
+                let isDir = resourceValues.isDirectory ?? false
+                let size = isDir ? 0 : Int64(resourceValues.fileSize ?? 0)
+
+                let child = FileNode(
+                    name: name,
+                    path: childURL.path,
+                    size: size,
+                    isDirectory: isDir,
+                    fileExtension: childURL.pathExtension.isEmpty ? nil : childURL.pathExtension,
+                    modificationDate: resourceValues.contentModificationDate,
+                    creationDate: resourceValues.creationDate,
+                    childrenLoaded: false
+                )
+                children.append(child)
+                totalScanned += 1
+            } catch {
+                permissionDeniedPaths.append(childURL.path)
             }
         }
 
-        return false
+        return children.sorted { $0.size > $1.size }
     }
 
     private func scan(url: URL, depth: Int) async throws -> FileNode {
         try Task.checkCancellation()
         if isCancelled { throw ScanError.cancelled }
-
-        if depth > 0 && shouldSkip(url) {
-            return FileNode(name: url.lastPathComponent, path: url.path, size: 0, isDirectory: true)
-        }
 
         currentPath = url.path
 

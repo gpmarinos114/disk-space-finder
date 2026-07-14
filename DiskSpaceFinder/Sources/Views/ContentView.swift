@@ -182,30 +182,61 @@ struct ContentView: View {
                 Divider()
 
                 Group {
-                    switch selectedVisualization {
-                    case .treemap:
-                        TreemapView(
-                            node: selected,
-                            onNodeSelected: { scanManager.navigateTo($0) },
-                            onDelete: { _ = scanManager.deleteFile($0) }
-                        )
-                    case .sunburst:
-                        SunburstView(node: selected, onNodeSelected: { node in
-                            scanManager.navigateTo(node)
-                        })
-                    case .tree:
-                        TreeDetailView(
-                            node: selected,
-                            sortOption: $scanManager.sortOption,
-                            onNodeSelected: { scanManager.navigateTo($0) },
-                            onDelete: { _ = scanManager.deleteFile($0) }
-                        )
-                    case .charts:
-                        ChartsView(
-                            node: selected,
-                            onNodeSelected: { scanManager.navigateTo($0) },
-                            onDelete: { _ = scanManager.deleteFile($0) }
-                        )
+                    if scanManager.isLoadingChildren {
+                        VStack(spacing: 16) {
+                            Spacer()
+                            ProgressView()
+                                .frame(width: 20, height: 20)
+                            Text("Loading folder contents...")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                        }
+                        .frame(maxWidth: .infinity)
+                    } else {
+                        switch selectedVisualization {
+                        case .treemap:
+                            TreemapView(
+                                node: selected,
+                                onNodeSelected: { node in
+                                    if !node.childrenLoaded {
+                                        Task { await scanManager.loadChildren(for: node) }
+                                    }
+                                    scanManager.navigateTo(node)
+                                },
+                                onDelete: { _ = scanManager.deleteFile($0) }
+                            )
+                        case .sunburst:
+                            SunburstView(node: selected, onNodeSelected: { node in
+                                if !node.childrenLoaded {
+                                    Task { await scanManager.loadChildren(for: node) }
+                                }
+                                scanManager.navigateTo(node)
+                            })
+                        case .tree:
+                            TreeDetailView(
+                                node: selected,
+                                sortOption: $scanManager.sortOption,
+                                onNodeSelected: { node in
+                                    if !node.childrenLoaded {
+                                        Task { await scanManager.loadChildren(for: node) }
+                                    }
+                                    scanManager.navigateTo(node)
+                                },
+                                onDelete: { _ = scanManager.deleteFile($0) }
+                            )
+                        case .charts:
+                            ChartsView(
+                                node: selected,
+                                onNodeSelected: { node in
+                                    if !node.childrenLoaded {
+                                        Task { await scanManager.loadChildren(for: node) }
+                                    }
+                                    scanManager.navigateTo(node)
+                                },
+                                onDelete: { _ = scanManager.deleteFile($0) }
+                            )
+                        }
                     }
                 }
                 .clipped()
