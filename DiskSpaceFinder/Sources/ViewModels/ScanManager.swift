@@ -63,8 +63,8 @@ class ScanManager: ObservableObject {
                 try? await Task.sleep(nanoseconds: 500_000_000)
                 if Task.isCancelled { break }
 
-                let count = await scanner.totalScanned
-                let path = await scanner.getCurrentPath()
+                let count = scanner.totalScanned
+                let path = scanner.currentPath
 
                 guard let self, !self.isDone else { continue }
                 self.filesScanned = count

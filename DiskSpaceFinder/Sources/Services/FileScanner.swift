@@ -3,8 +3,8 @@ import Foundation
 actor FileScanner {
     private var isCancelled = false
     private var permissionDeniedPaths: [String] = []
-    private(set) var totalScanned = 0
-    private(set) var currentPath: String = ""
+    nonisolated(unsafe) var totalScanned: Int = 0
+    nonisolated(unsafe) var currentPath: String = ""
 
     func cancel() {
         isCancelled = true
@@ -12,10 +12,6 @@ actor FileScanner {
 
     func getPermissionDeniedPaths() -> [String] {
         return permissionDeniedPaths
-    }
-
-    func getCurrentPath() -> String {
-        return currentPath
     }
 
     func scanDirectory(at url: URL) async throws -> FileNode {
