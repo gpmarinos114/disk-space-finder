@@ -186,13 +186,26 @@ class ScanManager: ObservableObject {
         do {
             try FileManager.default.trashItem(at: url, resultingItemURL: nil)
             rootNode = removeNode(node, from: rootNode)
+
             if selectedNode?.id == node.id {
                 selectedNode = rootNode
+            } else if let selected = selectedNode {
+                selectedNode = findNode(selected.id, in: rootNode)
             }
+
             return true
         } catch {
             return false
         }
+    }
+
+    private func findNode(_ id: UUID, in node: FileNode?) -> FileNode? {
+        guard let node else { return nil }
+        if node.id == id { return node }
+        for child in node.children {
+            if let found = findNode(id, in: child) { return found }
+        }
+        return nil
     }
 
     private func removeNode(_ target: FileNode, from node: FileNode?) -> FileNode? {
