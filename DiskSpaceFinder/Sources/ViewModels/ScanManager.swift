@@ -59,41 +59,49 @@ class ScanManager: ObservableObject {
         scanTask = Task { [weak self] in
             guard let self else { return }
 
-            let counterTask = Task { [weak self] in
-                let scanner = scannerRef
+            let scanner = scannerRef
+
+            let counterTask = Task {
                 while !Task.isCancelled {
-                    try? await Task.sleep(nanoseconds: 1_000_000_000)
-                    if Task.isCancelled || self?.isDone == true { break }
+                    try? await Task.sleep(nanoseconds: 500_000_000)
+                    if Task.isCancelled { break }
+
                     let count = await scanner.totalScanned
-                    let currentPath = await scanner.getCurrentPath()
-                    Task { @MainActor [weak self] in
+                    let path = await scanner.getCurrentPath()
+
+                    await MainActor.run { [weak self] in
                         guard let self, !self.isDone else { return }
                         self.filesScanned = count
-                        self.scanState = .scanning(path: currentPath, filesScanned: count)
+                        self.scanState = .scanning(path: path, filesScanned: count)
                     }
                 }
             }
 
             do {
-                let node = try await scannerRef.scanDirectory(at: url)
+                let node = try await scanner.scanDirectory(at: url)
                 counterTask.cancel()
 
-                if !Task.isCancelled {
+                let finalCount = await scanner.totalScanned
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
                     self.isDone = true
                     self.rootNode = node
                     self.selectedNode = node
-                    self.filesScanned = await scannerRef.totalScanned
+                    self.filesScanned = finalCount
                     self.scanState = .completed(node)
-                    self.permissionDeniedPaths = await scannerRef.getPermissionDeniedPaths()
                 }
             } catch is CancellationError {
                 counterTask.cancel()
-                self.isDone = true
-                self.scanState = .idle
+                await MainActor.run { [weak self] in
+                    self?.isDone = true
+                    self?.scanState = .idle
+                }
             } catch {
                 counterTask.cancel()
-                self.isDone = true
-                self.scanState = .error(error.localizedDescription)
+                await MainActor.run { [weak self] in
+                    self?.isDone = true
+                    self?.scanState = .error(error.localizedDescription)
+                }
             }
         }
     }
