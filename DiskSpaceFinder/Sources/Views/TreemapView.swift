@@ -128,6 +128,21 @@ struct TreemapView: View {
                         Label("Show in Finder", systemImage: "folder")
                     }
 
+                    Button {
+                        NSPasteboard.general.clearContents()
+                        NSPasteboard.general.setString(item.path, forType: .string)
+                    } label: {
+                        Label("Copy Path", systemImage: "doc.on.doc")
+                    }
+
+                    if item.isDirectory {
+                        Button {
+                            compressFolder(item)
+                        } label: {
+                            Label("Compress", systemImage: "archivebox")
+                        }
+                    }
+
                     Divider()
 
                     Button(role: .destructive) {
@@ -196,6 +211,18 @@ struct TreemapView: View {
         case .applications: return .red
         case .fonts: return .pink
         case .other: return .gray
+        }
+    }
+
+    private func compressFolder(_ node: FileNode) {
+        let url = URL(fileURLWithPath: node.path)
+        Task {
+            do {
+                let zipURL = try CompressService.compressFolder(at: url)
+                NSWorkspace.shared.selectFile(zipURL.path, inFileViewerRootedAtPath: "")
+            } catch {
+                // Handle error
+            }
         }
     }
 }
